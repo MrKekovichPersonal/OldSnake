@@ -2,7 +2,11 @@
 
 
 * Скачайте архив
-![Download Archive](https://sites.northwestern.edu/researchcomputing/files/2021/05/github.png "a title")
+
+
+ ![Download Archive](https://sites.northwestern.edu/researchcomputing/files/2021/05/github.png "a title")
+
+* Распакуйте архив
 
 
 * Откройте папку с проектом в терминале: 

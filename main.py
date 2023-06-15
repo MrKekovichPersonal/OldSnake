@@ -8,26 +8,24 @@ from utilis.point import Point
 class Game:
     HEIGHT = 30
     WIDTH = 40
-    SCREEN_HEIGHT = HEIGHT * Square.SQUARE_TOTAL_SIDE_LENGHT
-    SCREEN_WIDTH = WIDTH * Square.SQUARE_TOTAL_SIDE_LENGHT
+    SCREEN_HEIGHT = HEIGHT * Square.SQUARE_TOTAL_SIDE_LENGTH
+    SCREEN_WIDTH = WIDTH * Square.SQUARE_TOTAL_SIDE_LENGTH
 
     BACKGROUND_COLOR = "#ffffff"
     FOOD_COLOR = "#808000"
 
-    def __init__(self) -> None:
-        self.__screen = pygame.display.set_mode(
-            (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
-        )
+    PAUSE_TEXT = "Press Escape to unpause"
+    GAME_OVER_TEXT = "Press Space to restart"
 
+    def __init__(self, tick_rate: int = 5) -> None:
+        pygame.init()
+        self.__screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption("Snake!")
-        pygame.font.init()
         self.__font = pygame.font.Font(pygame.font.get_default_font(), 20)
-
         self.__clock = pygame.time.Clock()
-
-        self.__reset()
-
         self.__active = True
+        self.__reset()
+        self.__tick_rate = tick_rate
 
     def __reset(self):
         self.__direction_key = None
@@ -37,10 +35,7 @@ class Game:
     def __generate_food(self):
         self.__food = Square(
             self.FOOD_COLOR,
-            Point(
-                random.randrange(0, self.WIDTH),
-                random.randrange(0, self.HEIGHT),
-            ),
+            Point(random.randrange(0, self.WIDTH), random.randrange(0, self.HEIGHT)),
         )
 
     def __handle_events(self):
@@ -56,7 +51,6 @@ class Game:
                 elif not self.__snake.is_alive and event.key == pygame.K_SPACE:
                     self.__reset()
 
-
     def __tick(self):
         if self.__snake.is_alive:
             if self.__snake.move(self.__direction_key) == self.__food.position:
@@ -65,43 +59,30 @@ class Game:
                 self.__snake.shrink()
 
     def __draw(self):
-        self.__screen.fill(self.BACKGROUND_COLOR)
+        self.__screen.fill(pygame.Color(self.BACKGROUND_COLOR))
 
         if self.__snake.is_alive:
             self.__snake.draw(self.__screen)
             self.__food.draw(self.__screen)
         else:
-            game_over = self.__font.render("Press Space to restart", True, "#000000")
-            self.__screen.blit(
-                game_over,
-                (
-                    self.SCREEN_WIDTH / 2 - game_over.get_width() / 2,
-                    self.SCREEN_HEIGHT / 2 - game_over.get_height() / 2,
-                )
-            )
-        pygame.display.update()
+            game_over = self.__font.render(self.GAME_OVER_TEXT, True, pygame.Color("#000000"))
+            game_over_rect = game_over.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2))
+            self.__screen.blit(game_over, game_over_rect)
+
         if not self.__active:
-            pause = self.__font.render("Press Escape to unpause", True, "#000000")
-            self.__screen.blit(
-                pause,
-                (
-                    self.SCREEN_WIDTH / 2 - pause.get_width() / 2,
-                    self.SCREEN_HEIGHT / 2 - pause.get_height() / 2,
-                )
-            )
+            pause = self.__font.render(self.PAUSE_TEXT, True, pygame.Color("#000000"))
+            pause_rect = pause.get_rect(center=(self.SCREEN_WIDTH / 2, self.SCREEN_HEIGHT / 2))
+            self.__screen.blit(pause, pause_rect)
 
         pygame.display.update()
-
 
     def __pause(self):
         self.__active = not self.__active
 
     def run(self):
         while True:
-
-            pygame.time.delay(120)
-            self.__clock.tick(120)
-
+            pygame.time.delay(1 // self.__tick_rate)
+            self.__clock.tick(self.__tick_rate)
             self.__handle_events()
             if self.__active:
                 self.__tick()
@@ -109,5 +90,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game()
+    game = Game(7)  # Difficulty(speed) 7
     game.run()

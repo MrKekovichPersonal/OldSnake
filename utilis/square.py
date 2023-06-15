@@ -5,7 +5,7 @@ import pygame
 class Square:
     SQUARE_BORDER_WIDTH = 1
     SQUARE_SIDE_LENGTH = 10
-    SQUARE_TOTAL_SIDE_LENGHT = (
+    SQUARE_TOTAL_SIDE_LENGTH = (
             SQUARE_SIDE_LENGTH + SQUARE_BORDER_WIDTH * 2
     )
 
@@ -21,8 +21,8 @@ class Square:
             surface,
             self.__color,
             (
-                self.position.x * self.SQUARE_TOTAL_SIDE_LENGHT + self.SQUARE_BORDER_WIDTH,
-                self.position.y * self.SQUARE_TOTAL_SIDE_LENGHT + self.SQUARE_BORDER_WIDTH,
+                self.position.x * self.SQUARE_TOTAL_SIDE_LENGTH + self.SQUARE_BORDER_WIDTH,
+                self.position.y * self.SQUARE_TOTAL_SIDE_LENGTH + self.SQUARE_BORDER_WIDTH,
                 self.SQUARE_SIDE_LENGTH,
                 self.SQUARE_SIDE_LENGTH,
             )

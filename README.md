@@ -1,9 +1,18 @@
 # Как запустить:
 
+
+* Скачайте архив
+![Download Archive](https://sites.northwestern.edu/researchcomputing/files/2021/05/github.png "a title")
+
+
 * Откройте папку с проектом в терминале: 
-* - `WIN+R`
-* - Вписать `cmd`
-* - В терминале написать `cd 'путь к папке с проектом'`
+* 1. `WIN+R`
+* 2. Вписать `cmd`
+* 3. В терминале написать `cd 'путь к папке с проектом'`
+
 
 * Установите пакеты: 
 * - `pip install -r requirements.txt`
+
+* Запустите проект: 
+* - `python main.py
